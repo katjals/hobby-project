@@ -30,8 +30,8 @@
          // connect to database
          $db = mysqli_connect('localhost', 'root', '', 'hobby_project');
          // assemble statements and make sure the properties are properly escaped
-         $sql = sprintf("INSERT INTO owner (username, password, description, title, phonenumber, price, id) VALUES (
-             '%s', '%s', 'cykel', 'min cykel', '11111', '20', '5'
+         $sql = sprintf("INSERT INTO user (name, password, phoneNumber, email) VALUES (
+             '%s', '%s', '11111', 'k@h.dk'
          )", mysqli_real_escape_string($db, $name),
              mysqli_real_escape_string($db, $hash));
          // send it to database
@@ -57,12 +57,12 @@
      <?php
 
      $db =mysqli_connect('localhost', 'root', '', 'hobby_project');
-     $sql = 'SELECT * FROM owner';
+     $sql = 'SELECT * FROM user';
      $result = mysqli_query($db, $sql);
 
      foreach ($result as $row) {
          printf('<li><span>%s (%s)</span></li>',
-             htmlspecialchars($row['username']),
+             htmlspecialchars($row['name']),
              htmlspecialchars($row['id']));
      }
 
