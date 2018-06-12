@@ -30,7 +30,7 @@
             background: #f1f1f1;
         }
         
-        input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=number]:focus {
+        input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=email]:focus {
             background-color: #ddd;
             outline: none;
         }
@@ -67,7 +67,6 @@ include 'frontpage.html';
 ?>
 
 <?php
-session_start();
 
 // define variables and set to empty values
 $nameErr = $emailErr = $phoneErr = $pswErr = "";
@@ -99,10 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($ok) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        // add database code here
         // connect to database
         $db = mysqli_connect('localhost', 'root', '', 'hobby_project');
-        // assemble statements and make sure the properties are properly escaped
+        // assemble statements and escape the properties
         $sql = sprintf("INSERT INTO user (name, phoneNumber, email, password) VALUES (
              '%s', '%s', '%s', '%s'
          )",
@@ -112,10 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_real_escape_string($db, $hash));
         // send it to database
         mysqli_query($db, $sql);
-        // close database so it doesn't use space
+        // close database
         mysqli_close($db);
         // output to see what has happened
-        echo '<p>User added.</p>';
+        
+        echo "<script type='text/javascript'>alert('Highfive! Du er oprettet');</script>";
     }
 }
 
@@ -158,10 +157,6 @@ function test_input($data) {
         <button type="submit" name="submit" class="registerbtn" >Opret</button>
     </div>
 </form>
-
-<?php
-
-?>
 
 </body>
 </html>
