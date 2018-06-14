@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST["phone"])) {
         $phone = test_input($_POST["phone"]);
         if (strlen($phone) != 8 ) {
-            $phoneErr = "Telefonnummeret skal på 8 tegn";
+            $phoneErr = "Telefonnummeret skal være på 8 tegn";
             $ok = false;
         }
     }
