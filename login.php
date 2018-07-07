@@ -76,24 +76,30 @@ if (isset($_POST['email']) && isset($_POST['psw'])) {
     $password = test_input($_POST["psw"]);
     
     $db = mysqli_connect('localhost', 'root', '', 'hobby_project');
-    $sql = sprintf("SELECT * FROM users WHERE email='%s'",
+    // Check connection
+    if (mysqli_connect_errno()) {
+      echo "Failed to cennect to MySql: " . mysqli_connect_error();
+    }
+    
+    $sql = sprintf("SELECT password,name FROM user WHERE email='%s'",
         mysqli_real_escape_string($db, $email)
     );
     $result = mysqli_query($db, $sql);
     $row = mysqli_fetch_assoc($result);
     if ($row) {
         $hash = $row['password'];
-        
+        print $hash;
+        print $password;
         if (password_verify($password, $hash)) {
-            $message = 'Login succesful.';
-            
+            echo "<script type='text/javascript'>alert('Login succesful.');</script>";
             $_SESSION['user'] = $row['name'];
-            
+
         } else {
-            $message = 'Login failed.';
+            echo "<script type='text/javascript'>alert('Row er true og Login failed.');</script>";
         }
     } else {
-        $message = 'Login failed.';
+        echo "<script type='text/javascript'>alert('Row er false og Login failed.');</script>";
+    
     }
     mysqli_close($db);
 }
